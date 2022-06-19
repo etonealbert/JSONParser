@@ -77,36 +77,42 @@ func encode_to_base64(_ value: String) ->String {
 
 func req(request: String) -> String
 {
-    var usr = HTTP_SERVER_LOGIN
-    var pwd = HTTP_SERVER_PWD
+    let usr = encode_to_base64(HTTP_SERVER_LOGIN)
+    let pwd = encode_to_base64(HTTP_SERVER_PWD)
     let srv =  HTTP_SERVER_IP + ":" + String(HTTP_SERVER_PORT)
     
-    var hashed_request = encode_to_base64(request)
-    print(hashed_request)
+    let hashed_request = encode_to_base64(request)
     
-//    let trace = request.data(using: .windowsCP1252)
-//    let msg = String(data: trace!, encoding: .windowsCP1252) ?? ""
-//    usr = encode_to_base64(usr)
-//    pwd = encode_to_base64(pwd)
+    let url = URL(string: "http://" + srv + "/json/" + hashed_request + "/")!
+    let loginString = String(format: "%@:%@", usr, pwd)
     
-
+    var request_my = URLRequest(url: url)
+    request_my.httpMethod = "GET"
+    request_my.setValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
     
-//    let hashed_request = encode_to_base64(request)
-//    let my_url: String = "http://localhost:3000/Table"
-//    //guard let url = URL(string: my_url ) else { return "https://www.stackoverflow.com" }
-//    let url = URL(string: "https://www.stackoverflow.com")!
-//    //print(url)
-//    let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-//        guard let data = data else { return }
-//        print(String(data: data, encoding: .utf8)!)
+    
+    
+//    ______________________ Decodable ____________________________
+    
+//    struct Book: Decodable {
+//
+//        // MARK: - Properties
+//
+//        let ID: String
+//        let Names: String
+//
 //    }
 //
-//    task.resume()
-//    print(msg)
-//    print(hashed_request)
-//    print(type(of: trace))
-    return hashed_request
-}
+////    let url = URL(string: "https://bit.ly/3sspdFO")!
+//
+//    var request = URLRequest(url: url)
+//
+//    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//
+//    return hashed_request
+//
+//    }
 
 
 //func rep(request: String)
