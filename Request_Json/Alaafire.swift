@@ -10,9 +10,10 @@ import UIKit
 import Alamofire
 
 
-func repetition() -> String
+func repetition() 
 {
-    request("http://jsonplaceholder.typicode.com/posts").responseJSON { response in
+    request("http://etonealbert.space/service.php").responseJSON { response in
                print(response)
+}
 }
 

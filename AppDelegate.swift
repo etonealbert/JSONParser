@@ -23,7 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("_________ Отправляем Запрос: ___________")
        // print(req(request: "SELECT ID FROM Shops"))
         let prefix = "Booker_Test.dbo."
-        print(req(request: "select ID, Name from \(prefix)Shops"))
+        print(req(reqest: "select ID, Name from \(prefix)Shops"))
+        
+        print("_________ Alamofire: ___________")
+        
+//        repetition()
         
         return true
     }

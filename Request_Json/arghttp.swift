@@ -1,5 +1,6 @@
 
 import Foundation
+import Alamofire
 
 
 
@@ -75,45 +76,48 @@ func encode_to_base64(_ value: String) ->String {
 }
 
 
-func req(request: String) -> String
+func req(reqest: String) -> String
 {
     let usr = encode_to_base64(HTTP_SERVER_LOGIN)
     let pwd = encode_to_base64(HTTP_SERVER_PWD)
     let srv =  HTTP_SERVER_IP + ":" + String(HTTP_SERVER_PORT)
     
-    let hashed_request = encode_to_base64(request)
+    let hashed_request = encode_to_base64(reqest)
     
-    let url = URL(string: "http://" + srv + "/json/" + hashed_request + "/")!
+    let url =  "http://" + srv + "/json/" + hashed_request + "/"
     let loginString = String(format: "%@:%@", usr, pwd)
     
-    var request_my = URLRequest(url: url)
+    
+    request( url, method: .get).responseJSON { response in
+        print(response)
+    }
     
     
     //request_my.httpMethod = "b'" + request + "'"
-    request_my.addValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
-    print("b'" + request + "'" )
-    let task = URLSession.shared.dataTask(with: request_my) { (data, response, error) in
-        
-        // Check if Error took place
-        if let error = error {
-            print("Error took place \(error)")
-            return
-        }
-        
-        // Read HTTP Response Status code
-        if let response = response as? HTTPURLResponse {
-            print("Response HTTP Status code: \(response.statusCode)")
-        }
-        
-        // Convert HTTP Response Data to a simple String
-        if let data = data, let dataString = String(data: data, encoding: .utf8) {
-            print("Response data string:\n \(dataString)")
-        }
-        
-    }
-    
-    task.resume()
-    
+//    request_my.addValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
+////    print("b'" + request + "'" )
+//    let task = URLSession.shared.dataTask(with: request_my) { (data, response, error) in
+//
+//        // Check if Error took place
+//        if let error = error {
+//            print("Error took place \(error)")
+//            return
+//        }
+//
+//        // Read HTTP Response Status code
+//        if let response = response as? HTTPURLResponse {
+//            print("Response HTTP Status code: \(response.statusCode)")
+//        }
+//
+//        // Convert HTTP Response Data to a simple String
+//        if let data = data, let dataString = String(data: data, encoding: .utf8) {
+//            print("Response data string:\n \(dataString)")
+//        }
+//
+//    }
+//
+//    task.resume()
+
     return "end"
 
     }
