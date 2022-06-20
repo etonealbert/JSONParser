@@ -87,10 +87,36 @@ func req(request: String) -> String
     let loginString = String(format: "%@:%@", usr, pwd)
     
     var request_my = URLRequest(url: url)
-    request_my.httpMethod = "GET"
-    request_my.setValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
     
     
+    //request_my.httpMethod = "b'" + request + "'"
+    request_my.addValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
+    print("b'" + request + "'" )
+    let task = URLSession.shared.dataTask(with: request_my) { (data, response, error) in
+        
+        // Check if Error took place
+        if let error = error {
+            print("Error took place \(error)")
+            return
+        }
+        
+        // Read HTTP Response Status code
+        if let response = response as? HTTPURLResponse {
+            print("Response HTTP Status code: \(response.statusCode)")
+        }
+        
+        // Convert HTTP Response Data to a simple String
+        if let data = data, let dataString = String(data: data, encoding: .utf8) {
+            print("Response data string:\n \(dataString)")
+        }
+        
+    }
+    
+    task.resume()
+    
+    return "end"
+
+    }
     
 //    ______________________ Decodable ____________________________
     
@@ -110,9 +136,7 @@ func req(request: String) -> String
 //    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 //
 //
-//    return hashed_request
-//
-//    }
+ 
 
 
 //func rep(request: String)
@@ -135,6 +159,5 @@ func req(request: String) -> String
    // return idSentCheck
 
     
-
 
 
