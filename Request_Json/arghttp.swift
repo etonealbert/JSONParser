@@ -108,7 +108,7 @@ func req(reqest: String) -> String
         print(response)
     }
     
-        return "Ждем ответ"
+        return "Wait request answer:"
 
 }
 
