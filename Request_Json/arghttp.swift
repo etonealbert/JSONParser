@@ -69,9 +69,7 @@ func encode_to_base64(_ value: String) ->String {
         
          }
 
-//    print("hex = " + result)
-//    print("ascii = " + hex2ascii(hex: result))
-//    print("final = " + to_base64(hex2ascii(hex: result)))
+
    return(to_base64(hex2ascii(hex: result)))
 }
 
@@ -85,15 +83,51 @@ func req(reqest: String) -> String
     let hashed_request = encode_to_base64(reqest)
     
     let url =  "http://" + srv + "/json/" + hashed_request + "/"
-    let loginString = String(format: "%@:%@", usr, pwd)
     
+    print("url = \n" + url)
+    print("usr = " + usr)
+    print("pwd = " + pwd)
     
-    request( url, method: .get).responseJSON { response in
+//    request(url)
+//        .authenticate(user: usr, password: pwd)
+////        .validate()
+//        .responseJSON { responseJSON in
+//
+//        switch responseJSON.result {
+//        case .success(let value):
+//            print(value)
+//        case .failure(let error):
+//            print(error)
+//        }
+//    }
+//
+    request( url, method: .get, encoding: JSONEncoding.default, headers: nil)
+        .authenticate(user: usr, password: pwd)
+        .responseJSON { response in
+        debugPrint(response)
         print(response)
     }
     
-    
-    //request_my.httpMethod = "b'" + request + "'"
+        return "Ждем ответ"
+
+}
+
+
+//    print("hex = " + result)
+//    print("ascii = " + hex2ascii(hex: result))
+//    print("final = " + to_base64(hex2ascii(hex: result)))
+
+// let loginString = String(format: "%@:%@", usr, pwd)
+
+  
+//  let headers: HTTPHeaders = ["Username": usr, "Password": pwd]
+
+//    var rep = "b'" + reqest + "'"
+  
+//    let parametr =  [request: String("b'" + request + "'")]
+
+
+//request_my.httpMethod = "b'" + request + "'"
 //    request_my.addValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
 ////    print("b'" + request + "'" )
 //    let task = URLSession.shared.dataTask(with: request_my) { (data, response, error) in
@@ -118,10 +152,9 @@ func req(reqest: String) -> String
 //
 //    task.resume()
 
-    return "end"
 
-    }
-    
+
+
 //    ______________________ Decodable ____________________________
     
 //    struct Book: Decodable {

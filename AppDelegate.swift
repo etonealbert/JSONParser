@@ -17,17 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for i in 0...(my_list.count-1){
             result.append("ID: " + my_list[i].id + "    Точка: " + my_list[i].name)
         }
-    print(my_list)
-      
-        print(encode_to_base64("Hello"))
+//    print(my_list)
+//
+//        print(encode_to_base64("Hello"))
         print("_________ Отправляем Запрос: ___________")
        // print(req(request: "SELECT ID FROM Shops"))
         let prefix = "Booker_Test.dbo."
         print(req(reqest: "select ID, Name from \(prefix)Shops"))
         
-        print("_________ Alamofire: ___________")
+//        print("_________ Alamofire: ___________")
         
-//        repetition()
+//       repetition()
         
         return true
     }
