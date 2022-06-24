@@ -74,126 +74,27 @@ func encode_to_base64(_ value: String) ->String {
 }
 
 
-func req(reqest: String) -> String
-{
+
+
+func req(reqest: String) -> String {
     let usr = encode_to_base64(HTTP_SERVER_LOGIN)
     let pwd = encode_to_base64(HTTP_SERVER_PWD)
     let srv =  HTTP_SERVER_IP + ":" + String(HTTP_SERVER_PORT)
     
-    let hashed_request = encode_to_base64(reqest)
+    let url = "http://\(srv)/json/\(encode_to_base64(reqest))/"
     
-    let url =  "http://" + srv + "/json/" + hashed_request + "/"
-    
-    print("url = \n" + url)
-    print("usr = " + usr)
-    print("pwd = " + pwd)
-    
-//    request(url)
-//        .authenticate(user: usr, password: pwd)
-////        .validate()
-//        .responseJSON { responseJSON in
-//
-//        switch responseJSON.result {
-//        case .success(let value):
-//            print(value)
-//        case .failure(let error):
-//            print(error)
-//        }
-//    }
-//
-    request( url, method: .get, encoding: JSONEncoding.default, headers: nil)
-        .authenticate(user: usr, password: pwd)
+    let authorization_token = ((usr + ":" + pwd).data(using: .windowsCP1250)?.base64EncodedString())!
+    print("encodet = \(authorization_token)")
+    let header: HTTPHeaders = [ "Authorization": "Basic \(authorization_token)"]
+
+    request( url, method: .get, encoding: JSONEncoding.default, headers: header)
         .responseJSON { response in
-        debugPrint(response)
-        print(response)
+            print(response)
     }
-    
+   
         return "Wait request answer:"
 
 }
-
-
-//    print("hex = " + result)
-//    print("ascii = " + hex2ascii(hex: result))
-//    print("final = " + to_base64(hex2ascii(hex: result)))
-
-// let loginString = String(format: "%@:%@", usr, pwd)
-
-  
-//  let headers: HTTPHeaders = ["Username": usr, "Password": pwd]
-
-//    var rep = "b'" + reqest + "'"
-  
-//    let parametr =  [request: String("b'" + request + "'")]
-
-
-//request_my.httpMethod = "b'" + request + "'"
-//    request_my.addValue("Basic \(loginString)", forHTTPHeaderField: "Authorization")
-////    print("b'" + request + "'" )
-//    let task = URLSession.shared.dataTask(with: request_my) { (data, response, error) in
-//
-//        // Check if Error took place
-//        if let error = error {
-//            print("Error took place \(error)")
-//            return
-//        }
-//
-//        // Read HTTP Response Status code
-//        if let response = response as? HTTPURLResponse {
-//            print("Response HTTP Status code: \(response.statusCode)")
-//        }
-//
-//        // Convert HTTP Response Data to a simple String
-//        if let data = data, let dataString = String(data: data, encoding: .utf8) {
-//            print("Response data string:\n \(dataString)")
-//        }
-//
-//    }
-//
-//    task.resume()
-
-
-
-
-//    ______________________ Decodable ____________________________
-    
-//    struct Book: Decodable {
-//
-//        // MARK: - Properties
-//
-//        let ID: String
-//        let Names: String
-//
-//    }
-//
-////    let url = URL(string: "https://bit.ly/3sspdFO")!
-//
-//    var request = URLRequest(url: url)
-//
-//    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//
- 
-
-
-//func rep(request: String)
-
-    
-    //URLSession.shared.da
-
-    
-//        var host=HTTP_SERVER_IP,
-//        var port=HTTP_SERVER_PORT,
-//        var user=HTTP_SERVER_LOGIN,
-//        var password=HTTP_SERVER_PWD,
-//        var database="Booker_Test.dbo."
-//    cursor=connection.cursor()
-//
-//    check_account_query= request
-//    cursor.execute(check_account_query)
-//    idSentCheck = cursor.fetchall()
-
-   // return idSentCheck
 
     
 

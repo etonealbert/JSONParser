@@ -21,10 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //
 //        print(encode_to_base64("Hello"))
         print("_________ Отправляем Запрос: ___________")
+        print(type(of: JSON))
        // print(req(request: "SELECT ID FROM Shops"))
         let prefix = "Booker_Test.dbo."
         print(req(reqest: "select ID, Name from \(prefix)Shops"))
         
+//        print(encode_to_base64(prefix))
 //        print("_________ Alamofire: ___________")
         
 //       repetition()
