@@ -68,6 +68,7 @@ func encode_to_base64(_ value: String) ->String {
         index += 1
         
          }
+    
 
 
    return(to_base64(hex2ascii(hex: result)))
@@ -76,25 +77,31 @@ func encode_to_base64(_ value: String) ->String {
 
 
 
-func req(reqest: String) -> String {
+func req(reqest: String, completionHandler: @escaping  ( Array<Dictionary<String, Any>>?, Error?) -> Void )
+{
     let usr = encode_to_base64(HTTP_SERVER_LOGIN)
     let pwd = encode_to_base64(HTTP_SERVER_PWD)
     let srv =  HTTP_SERVER_IP + ":" + String(HTTP_SERVER_PORT)
     
-    let url = "http://\(srv)/json/\(encode_to_base64(reqest))/"
-    
     let authorization_token = ((usr + ":" + pwd).data(using: .windowsCP1250)?.base64EncodedString())!
-    print("encodet = \(authorization_token)")
+    
     let header: HTTPHeaders = [ "Authorization": "Basic \(authorization_token)"]
-
-    request( url, method: .get, encoding: JSONEncoding.default, headers: header)
-        .responseJSON { response in
-            print(response)
-    }
-   
-        return "Wait request answer:"
-
+    
+    request( "http://\(srv)/json/\(encode_to_base64(reqest))/", method: .get, encoding:  JSONEncoding.default, headers: header)
+        .responseJSON
+    {
+            responseJSON in
+            switch responseJSON.result
+            {
+                case .success:
+                    guard let jsonArray = responseJSON.result.value as? [[String: Any]] else { return }
+                    completionHandler(jsonArray.data(using: .utf8), nil)
+                case .failure(let error):
+                    completionHandler(nil, error)
+            }
+        }
 }
+
 
     
 
