@@ -20,13 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         print("_________ Отправляем Запрос: ___________")
         let prefix = "Booker_Test.dbo."
-        req(reqest: "select ID, Name from \(prefix)Shops") { json, error in
-            print(json!)
+        req(reqest: "select ID, Name from \(prefix)Shops")
+        {
+            json, error in
+           print(json!)
         }
         
 
         
         return true
+    
     }
 
     // MARK: UISceneSession Lifecycle
