@@ -13,19 +13,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+    
         
+        
+       
         for i in 0...(my_list.count-1){
-            result.append("ID: " + my_list[i].id + "    Точка: " + my_list[i].name)
-        }
+               result.append("ID: " + my_list[i].id + "    Точка: " + my_list[i].name)
+           }
 
         print("_________ Отправляем Запрос: ___________")
-        let prefix = "Booker_Test.dbo."
-        req(reqest: "select ID, Name from \(prefix)Shops")
-        {
-            json, error in
-           print(json!)
+        decodeNames(){
+            json in
+            for i in json
+            {
+                print("\(i)\n")
+            }
         }
-        
+
 
         
         return true

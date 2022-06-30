@@ -5,7 +5,7 @@ import Alamofire
 
 
 
-func UnicConvert(str: Character) -> Int {
+private func UnicConvert(str: Character) -> Int {
     
     var unit: Int = 0
     
@@ -18,7 +18,7 @@ func UnicConvert(str: Character) -> Int {
     return unit
 }
 
-func hex2ascii(hex: String) -> String {
+private func hex2ascii(hex: String) -> String {
     var text = ""
     let chars = Array(hex)
     _ = stride(from: 0, to: chars.count, by: 2).map() {
@@ -30,7 +30,7 @@ func hex2ascii(hex: String) -> String {
 }
 
 
-func to_base64(_ ascii: String) -> String {
+private func to_base64(_ ascii: String) -> String {
 
     let base64Encoded = ascii.data(using: .windowsCP1252)?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
     if (base64Encoded == nil) {
@@ -94,20 +94,17 @@ func req(reqest: String, completionHandler: @escaping  ( [[String : Any]]?, Erro
             responseJSON in
         switch responseJSON.result
             {
-                case .success:
-            if let array = responseJSON.result.value as? [[String: Any]]
-            {
-                if let array2 = array[0]["Table"]! as? [[String: Any]]
+            case .success:
+                if let array = responseJSON.result.value as? [[String: Any]]
                 {
-                   
-                    completionHandler(array2,nil)
+                    if let array2 = array[0]["Table"]! as? [[String: Any]]
+                    {
+                       
+                        completionHandler(array2,nil)
+                    }
                 }
-            }
-        
-            
-            
-                case .failure(let error):
-                    completionHandler(nil, error)
+            case .failure(let error):
+                completionHandler(nil, error)
             }
         }
 }

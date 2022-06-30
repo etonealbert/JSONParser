@@ -258,8 +258,6 @@ let JSON = """
     "Name":"КС"
    }
   ]
-
-
 """
 
 //
@@ -276,3 +274,4 @@ public struct BlogPost: Decodable {
         case name = "Name"
     }
 }
+
